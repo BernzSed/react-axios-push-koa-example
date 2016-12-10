@@ -8,7 +8,6 @@ import * as TodoActions       from 'actions/todoActions';
 
 
 @connect(state => ({ todos: state.todos }))
-
 export default class Home extends React.Component {
   propTypes: {
     todos: React.PropTypes.any.isRequired,

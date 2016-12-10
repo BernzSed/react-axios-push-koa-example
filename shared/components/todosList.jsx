@@ -2,13 +2,16 @@ import React from 'react';
 import TodoItem from 'components/todoItem';
 
 export default class TodosList extends React.Component {
-  propTypes: {
-    todos: React.PropTypes.array.isRequired,
-    // actions: React.PropTypes.shape({
-    //   deleteTodo: React.PropTypes.func,
-    //   editTodo: React.PropTypes.func
-    // }).isRequired
-    actions: React.PropTypes.object
+  static propTypes = {
+    todos: React.PropTypes.any.isRequired,
+    actions: React.PropTypes.shape({
+      deleteTodo: React.PropTypes.func,
+      editTodo: React.PropTypes.func
+    }).isRequired
+  }
+
+  componentWillMount() {
+    this.props.actions.getTodos();
   }
 
   render() {

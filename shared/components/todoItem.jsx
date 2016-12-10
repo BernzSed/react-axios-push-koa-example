@@ -5,11 +5,11 @@ class TodoItem extends React.Component {
     super(props);
     this.state = {
       editing: false
-      // todoTextValue: props.todo
     }
   }
 
-  handleSave = (target) => {
+  handleSave = (event) => {
+    event.preventDefault();
     this.props.actions.editTodo(this.props.id, this.refs.input.value);
     this.setState({editing: false});
   }
@@ -17,7 +17,6 @@ class TodoItem extends React.Component {
   handleEdit = () => {
     this.setState({
       editing: true
-      // todoInputValue: this.props.todo
     });
   }
 
@@ -39,10 +38,10 @@ class TodoItem extends React.Component {
 
   renderEditingView() {
     return (
-      <form style={{display: 'inline'}}>
+      <form style={{display: 'inline'}} onSubmit={this.handleSave}>
         <span>
           <input type="text" defaultValue={this.props.todo} ref='input' />
-          <button type="submit" onClick={this.handleSave}>
+          <button type="submit">
             ✓
           </button>
         </span>
