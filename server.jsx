@@ -1,29 +1,66 @@
 import express                   from 'express';
 import React                     from 'react';
 import { renderToString }        from 'react-dom/server'
-import { RouterContext, match } from 'react-router';
-import createLocation            from 'history/lib/createLocation';
+import { RouterContext, match }  from 'react-router';
+import createMemoryHistory       from 'history/lib/createMemoryHistory'
 import { createStore, combineReducers } from 'redux';
 import { Provider }                     from 'react-redux';
 import { applyMiddleware } from 'redux';
-import promiseMiddleware   from 'lib/promiseMiddleware';
 
+import promiseMiddleware   from 'lib/promiseMiddleware';
 import routes             from 'routes';
 import * as reducers      from 'reducers';
+
+
+class TestComponent extends React.Component {
+  constructor(props) {
+    super(...arguments);
+    console.log('TestComponent.constructor()');
+  }
+
+  componentWillMount() {
+    console.log('TestComponent.componentWillMount()');
+  }
+
+  componentDidMount() {
+    console.log('TestComponent.componentDidMount()');
+  }
+
+  componentWillUnmount() {
+    console.log('TestComponent.componentWillUnmount');
+  }
+
+  componentDidUnmount() {
+    console.log('TestComponent.componentDidUnmount');
+  }
+
+  render() {
+    console.log('TestComponent.render()');
+    return (
+      <div>
+      </div>
+    );
+  }
+}
+
 
 
 const app = express();
 
 app.use((req, res) => {
-  const location = createLocation(req.url);
-  const reducer  = combineReducers(reducers);
+  console.log(req.originalUrl, typeof(req.originalUrl))
+  const reducer = combineReducers(reducers);
   const store = createStore(reducer, applyMiddleware(promiseMiddleware));
+  const history = createMemoryHistory(req.originalUrl)
 
-  match({ routes, location }, (err, redirectLocation, renderProps) => {
+  match({ routes, location: req.originalUrl, history }, (err, redirectLocation, renderProps) => {
+    console.log('matching');
 
     if (err) {
       console.error(err);
       return res.status(500).end('Internal server error');
+    } else if (redirectLocation) {
+      return res.redirect(302, redirectLocation.pathname + redirectLocation.search);
     }
 
     if (!renderProps) return res.status(404).end('Not found.');
@@ -34,7 +71,16 @@ app.use((req, res) => {
       </Provider>
     );
 
-    renderToString(InitialComponent); // Hackish solution; should find a fix for that
+    const test = (TestComponent)
+
+    console.log('A --------------------');
+    renderToString(test); // Hackish solution; should find a fix for that
+    console.log('B --------------------');
+    renderToString(test); // Hackish solution; should find a fix for that
+    console.log('C --------------------');
+
+    renderToString(InitialComponent);
+
 
     function renderAndRespond() {
       const componentHTML = renderToString(InitialComponent);
@@ -74,9 +120,10 @@ app.use((req, res) => {
       // TODO add a timeout, just in case
 
       const unsubscribe = store.subscribe(function() {
-        if(notLoading()){
+        console.log('subscribe callback');
+        if(notLoading()) {
+          unsubscribe();
           renderAndRespond();
-          if(unsubscribe) unsubscribe();
         }
       });
 

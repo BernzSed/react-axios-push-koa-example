@@ -19,7 +19,10 @@ Object.keys(initialStateMutable).forEach(key => {
 const reducer = combineReducers(reducers);
 const store = createStore(reducer, initialState, applyMiddleware(promiseMiddleware));
 
-global.sss = store;
+global._the_great_and_powerful_store = store;
+
+// will have to use async routes if code splitting:
+// https://github.com/ReactTraining/react-router/blob/master/docs/guides/ServerRendering.md#async-routes
 
 render(
   <Provider store={store}>
