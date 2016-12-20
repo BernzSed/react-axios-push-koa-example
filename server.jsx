@@ -12,38 +12,6 @@ import routes             from 'routes';
 import * as reducers      from 'reducers';
 
 
-class TestComponent extends React.Component {
-  constructor(props) {
-    super(...arguments);
-    console.log('TestComponent.constructor()');
-  }
-
-  componentWillMount() {
-    console.log('TestComponent.componentWillMount()');
-  }
-
-  componentDidMount() {
-    console.log('TestComponent.componentDidMount()');
-  }
-
-  componentWillUnmount() {
-    console.log('TestComponent.componentWillUnmount');
-  }
-
-  componentDidUnmount() {
-    console.log('TestComponent.componentDidUnmount');
-  }
-
-  render() {
-    console.log('TestComponent.render()');
-    return (
-      <div>
-      </div>
-    );
-  }
-}
-
-
 
 const app = express();
 
@@ -70,14 +38,6 @@ app.use((req, res) => {
         <RouterContext {...renderProps} />
       </Provider>
     );
-
-    const test = (TestComponent)
-
-    console.log('A --------------------');
-    renderToString(test); // Hackish solution; should find a fix for that
-    console.log('B --------------------');
-    renderToString(test); // Hackish solution; should find a fix for that
-    console.log('C --------------------');
 
     renderToString(InitialComponent);
 
