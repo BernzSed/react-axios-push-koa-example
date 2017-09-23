@@ -3,27 +3,59 @@ import React                     from 'react';
 import { renderToString }        from 'react-dom/server'
 import { RouterContext, match }  from 'react-router';
 import createMemoryHistory       from 'history/lib/createMemoryHistory'
+// import createMemoryHistory from 'history/createMemoryHistory'
 import { createStore, combineReducers } from 'redux';
 import { Provider }                     from 'react-redux';
-import { applyMiddleware } from 'redux';
+import { applyMiddleware }      from 'redux';
+import spdy                from 'spdy';
+import * as fs from 'fs';
+import thunk from 'redux-thunk'
 
 import promiseMiddleware   from 'lib/promiseMiddleware';
 import routes             from 'routes';
 import * as reducers      from 'reducers';
+import api from './api/routes'
+import prepareAxios from 'axios-isomorphic-push'
 
-
-
+const options = {
+  key: fs.readFileSync('./server.key'),
+  cert: fs.readFileSync('./server.crt')
+};
 const app = express();
 
+
+app.use('/api', api);
+
+app.use('/assets', express.static('assets'));
+
 app.use((req, res) => {
-  console.log(req.originalUrl, typeof(req.originalUrl))
+  const axios = prepareAxios(res);
   const reducer = combineReducers(reducers);
-  const store = createStore(reducer, applyMiddleware(promiseMiddleware));
-  const history = createMemoryHistory(req.originalUrl)
+  const middlewares = applyMiddleware(thunk.withExtraArgument(axios), promiseMiddleware);
+  const store = createStore(reducer, middlewares);
+  const history = createMemoryHistory(req.originalUrl);
+
+
+  axios.interceptors.request.use(
+    config => {
+      global.console.log('server - request intercepted', config)
+      return config;
+    },
+    err => global.console.log('server - request error', err));
+
+    axios.interceptors.response.use(
+      response => {
+        global.console.log('server - response intercepted', response);
+        return response;
+      },
+      err => global.console.log('server - response error', err));
+
+
+  const fooPromise = axios.get('https://localhost:3000/api/foo');
+  fooPromise.then(foo => global.console.log('got foo', foo), err => global.console.log('could not get foo', err));
+
 
   match({ routes, location: req.originalUrl, history }, (err, redirectLocation, renderProps) => {
-    console.log('matching');
-
     if (err) {
       console.error(err);
       return res.status(500).end('Internal server error');
@@ -46,6 +78,8 @@ app.use((req, res) => {
       const componentHTML = renderToString(InitialComponent);
       const initialState = store.getState();
 
+      global.console.log('renderAndRespond, rendered to string');
+
       const HTML = `
       <!DOCTYPE html>
       <html>
@@ -58,7 +92,7 @@ app.use((req, res) => {
         </head>
         <body>
           <div id="react-view">${componentHTML}</div>
-          <script type="application/javascript" src="/bundle.js"></script>
+          <script type="application/javascript" src="/assets/bundle.js"></script>
         </body>
       </html>
       `;
@@ -80,7 +114,7 @@ app.use((req, res) => {
       // TODO add a timeout, just in case
 
       const unsubscribe = store.subscribe(function() {
-        console.log('subscribe callback');
+        // console.log('subscribe callback');
         if(notLoading()) {
           unsubscribe();
           renderAndRespond();
@@ -90,4 +124,6 @@ app.use((req, res) => {
     }
   });
 });
-export default app;
+const server = spdy.createServer(options, app);
+
+export default server;

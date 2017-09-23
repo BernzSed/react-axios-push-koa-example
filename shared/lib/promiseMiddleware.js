@@ -19,7 +19,7 @@ export default store => next => action => {
       next({ ...rest, error, type: FAILURE });
       next({ type: 'LOADING_COMPLETE' });
 
-      console.log(error);
+      console.log('promise middleware error', error);
       return false;
     });
 };

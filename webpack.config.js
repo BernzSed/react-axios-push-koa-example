@@ -8,7 +8,8 @@ module.exports = {
     './client'
   ],
   output: {
-    path:     path.join(__dirname, 'dist'),
+    path:     path.join(__dirname, 'assets'),
+    publicPath: "/assets/",
     filename: 'bundle.js'
   },
   resolve: {

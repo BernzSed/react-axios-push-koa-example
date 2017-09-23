@@ -27,9 +27,11 @@ export function deleteTodo(id) {
 }
 
 export function getTodos() {
+  global.console.log('getTodos() action');
   return {
-    type: 'GET_TODOS',
-    promise: request.get(BACKEND_URL)
+    type: 'GET_TODOS____TEMPORARILY_DOING_NOTHING',
+    // promise: request.get(BACKEND_URL)
+    // promise: Promise.resolve([])
   }
 }
 
@@ -39,3 +41,11 @@ export function getTodos() {
 //     todos: ['first_task', 'second_task']
 //   }
 // }
+
+export const getFoo = () => (dispatch, getState, axios) => {
+  global.console.log('getFoo()');
+  return axios.get('/api/foo').then(
+    foo => console.log('got foo', foo),
+    err => console.log('could not get foo', err)
+  );
+}

@@ -8,7 +8,8 @@ import { fromJS }                       from 'immutable';
 import * as reducers                    from 'reducers';
 import { applyMiddleware } from 'redux';
 import promiseMiddleware   from 'lib/promiseMiddleware';
-
+import thunk from 'redux-thunk';
+import prepareAxios from 'axios-isomorphic-push';
 
 const initialStateMutable = window._initial_redux_state;
 const initialState = {};
@@ -16,10 +17,12 @@ Object.keys(initialStateMutable).forEach(key => {
   initialState[key] = fromJS(initialStateMutable[key])
 })
 
+const axios = prepareAxios();
 const reducer = combineReducers(reducers);
-const store = createStore(reducer, initialState, applyMiddleware(promiseMiddleware));
+const middlewares = applyMiddleware(thunk.withExtraArgument(axios), promiseMiddleware);
+const store = createStore(reducer, initialState, middlewares);
 
-global._the_great_and_powerful_store = store;
+global._the_great_and_powerful_store = store; // for debugging
 
 // will have to use async routes if code splitting:
 // https://github.com/ReactTraining/react-router/blob/master/docs/guides/ServerRendering.md#async-routes
