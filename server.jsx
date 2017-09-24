@@ -47,7 +47,6 @@ routes.get(/^\/(.*)(?:\/|$)/, async function(ctx, next) {
   const reducer = combineReducers(reducers);
   const middlewares = applyMiddleware(thunk.withExtraArgument(apiClient));
   const store = createStore(reducer, middlewares);
-  // const history = createMemoryHistory(req.originalUrl); // TODO do I need this?
 
   const InitialComponent = (
     <Provider store={store}>
@@ -71,7 +70,7 @@ routes.get(/^\/(.*)(?:\/|$)/, async function(ctx, next) {
     </head>
     <body>
       <div id="react-view">${componentHTML}</div>
-      <script type="application/javascript" src="/assets/bundle.js"></script>
+      <script defer async type="application/javascript" src="/assets/bundle.js"></script>
     </body>
   </html>
   `;
