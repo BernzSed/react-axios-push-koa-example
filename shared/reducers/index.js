@@ -1,2 +1,1 @@
-export { default as todos } from './TodoReducer';
-export { default as loading } from './LoadingReducer';
+export { default as foo } from './foo';
