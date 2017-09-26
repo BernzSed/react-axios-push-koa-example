@@ -8,11 +8,12 @@
     "start": "npm run build:dev; npm run serve",
     "clean": "rm -rf assets/bundle.js",
     "serve": "NODE_PATH=$NODE_PATH:./shared nodemon --expose-http2 --harmony .",
+    "debug": "NODE_PATH=$NODE_PATH:./shared node debug --expose-http2 --harmony .",
     "build:dev": "NODE_ENV=development webpack --progress --color -p --config webpack.config.js",
     "build:prod": "NODE_ENV=production webpack --progress --color -p --config webpack.config.js"
   },
-  "engines" : {
-    "node" : ">=8.5.0"
+  "engines": {
+    "node": ">=8.5.0"
   },
   "author": "Bernie Stern <bernzs@gmail.com>",
   "license": "MIT",
@@ -26,8 +27,8 @@
     "koa-router": "^7.2.1",
     "koa-static": "^4.0.1",
     "prop-types": "^15.6.0",
-    "react": "^15.6.2",
-    "react-dom": "^15.6.2",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"

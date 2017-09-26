@@ -1,6 +1,6 @@
 import http2 from 'http2';
 import React from 'react';
-import { renderToString } from 'react-dom/server'
+import { renderToNodeStream } from 'react-dom/server'
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { applyMiddleware } from 'redux';
@@ -54,28 +54,31 @@ routes.get(/^\/(.*)(?:\/|$)/, async function(ctx, next) {
     </Provider>
   );
 
-  const componentHTML = renderToString(InitialComponent);
+  ctx.status = 200;
 
-  const initialState = store.getState();
-
-  const html = `
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <meta charset="utf-8">
-      <title>Page Title</title>
-      <script type="application/javascript">
-        window._initial_redux_state = ${JSON.stringify(initialState)};
-      </script>
-    </head>
-    <body>
-      <div id="react-view">${componentHTML}</div>
-      <script defer async type="application/javascript" src="/assets/bundle.js"></script>
-    </body>
-  </html>
-  `;
-
-  ctx.body = html;
+  const html1 = `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Page Title</title>
+  </head>
+  <body>
+    <div id="react-view">`;
+  res.write(html1);
+  const stream = renderToNodeStream(InitialComponent);
+  stream.pipe(res, {end: false});
+  stream.on('end', () => {
+    const initialState = store.getState();
+    const html2 = `</div>
+    <script type="application/javascript">
+      window._initial_redux_state = ${JSON.stringify(initialState)};
+    </script>
+    <script defer async type="application/javascript" src="/assets/bundle.js"></script>
+  </body>
+</html>`;
+    res.write(html2);
+    res.end();
+  });
 });
 
 export default server;

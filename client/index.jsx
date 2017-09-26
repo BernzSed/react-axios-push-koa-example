@@ -1,5 +1,5 @@
 import React       from 'react';
-import { render }  from 'react-dom';
+import ReactDOM  from 'react-dom';
 import App from 'components';
 import { createStore, combineReducers } from 'redux';
 import { Provider }                     from 'react-redux';
@@ -23,7 +23,7 @@ const store = createStore(reducer, initialState, composeEnhancers(middlewares));
 
 global._the_great_and_powerful_store = store; // for debugging
 
-render(
+ReactDOM.hydrate(
   <Provider store={store}>
     <App />
   </Provider>,

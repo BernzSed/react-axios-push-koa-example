@@ -24,7 +24,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.NoErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin()
   ],
   devtool: 'inline-source-map'
 };
