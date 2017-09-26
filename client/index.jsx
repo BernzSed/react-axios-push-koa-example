@@ -9,8 +9,6 @@ import { applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import axios from 'axios';
 
-console.log('client/index.js is go!');
-
 const initialStateMutable = window._initial_redux_state;
 const initialState = {};
 Object.keys(initialStateMutable).forEach(key => {
