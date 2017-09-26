@@ -5,10 +5,10 @@
   "description": "An example of how to use axios-isomorphic-push with koa, react, and redux",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build; npm run runserver",
-    "debug": "NODE_PATH=$NODE_PATH:./shared node debug --expose-http2 --harmony .",
-    "runserver": "NODE_PATH=$NODE_PATH:./shared node --expose-http2 --harmony .",
-    "build": "NODE_ENV=production webpack --progress --color -p --config webpack.config.js"
+    "start": "npm run build:dev; npm run serve",
+    "serve": "NODE_PATH=$NODE_PATH:./shared nodemon --expose-http2 --harmony .",
+    "build:dev": "NODE_ENV=development webpack --progress --color -p --config webpack.config.js",
+    "build:prod": "NODE_ENV=production webpack --progress --color -p --config webpack.config.prod.js"
   },
   "author": "Bernie Stern <bernzs@gmail.com>",
   "license": "MIT",
@@ -29,13 +29,19 @@
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
-    "babel": "^5.8.23",
-    "babel-eslint": "^4.1.2",
-    "babel-loader": "^5.3.2",
-    "eslint": "^1.4.3",
-    "eslint-plugin-react": "^3.3.2",
-    "react-hot-loader": "^1.3.0",
-    "webpack": "^1.12.1",
-    "webpack-dev-server": "^1.11.0"
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.0",
+    "babel-loader": "^7.1.2",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "eslint": "^4.7.2",
+    "eslint-plugin-react": "^7.4.0",
+    "nodemon": "^1.12.1",
+    "react-hot-loader": "^1.3.1",
+    "webpack": "^3.6.0"
   }
 }
