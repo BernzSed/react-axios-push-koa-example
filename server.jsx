@@ -1,4 +1,5 @@
 import http2 from 'http2';
+import { PassThrough } from 'stream';
 import React from 'react';
 import { renderToNodeStream } from 'react-dom/server'
 import { createStore, combineReducers } from 'redux';
@@ -10,16 +11,17 @@ import Router from 'koa-router';
 import mount from 'koa-mount';
 import serve from 'koa-static';
 import thunk from 'redux-thunk';
+import createAxios from 'axios-isomorphic-push';
 
 import AppComponent from 'components';
 import * as reducers from 'reducers';
 import api from './api';
-// import prepareAxios from 'axios-isomorphic-push'; // TODO use this. Also, maybe rename 'prepareAxios' to 'createAxios'
-import axios from 'axios'; // TODO don't; use axios-isomorphic-push instead
+import axiosConfig from 'config/axios';
 
 const options = {
   key: fs.readFileSync('./server.key'),
-  cert: fs.readFileSync('./server.crt')
+  cert: fs.readFileSync('./server.crt'),
+  allowHTTP1: true
 };
 const app = new Koa();
 
@@ -42,8 +44,7 @@ routes.use(mount('/assets', serve('assets')))
 routes.get(/^\/(.*)(?:\/|$)/, async function(ctx, next) {
   const { req, res } = ctx;
 
-  // const apiClient = prepareAxios(res); // TODO
-  const apiClient = axios.create();
+  const apiClient = createAxios(res, axiosConfig);
   const reducer = combineReducers(reducers);
   const middlewares = applyMiddleware(thunk.withExtraArgument(apiClient));
   const store = createStore(reducer, middlewares);
@@ -55,6 +56,8 @@ routes.get(/^\/(.*)(?:\/|$)/, async function(ctx, next) {
   );
 
   ctx.status = 200;
+  ctx.type = 'text/html';
+  ctx.body = new PassThrough();
 
   const html1 = `<!DOCTYPE html>
 <html>
@@ -64,9 +67,9 @@ routes.get(/^\/(.*)(?:\/|$)/, async function(ctx, next) {
   </head>
   <body>
     <div id="react-view">`;
-  res.write(html1);
+  ctx.body.write(html1);
   const stream = renderToNodeStream(InitialComponent);
-  stream.pipe(res, {end: false});
+  stream.pipe(ctx.body, {end: false});
   stream.on('end', () => {
     const initialState = store.getState();
     const html2 = `</div>
@@ -76,8 +79,8 @@ routes.get(/^\/(.*)(?:\/|$)/, async function(ctx, next) {
     <script defer async type="application/javascript" src="/assets/bundle.js"></script>
   </body>
 </html>`;
-    res.write(html2);
-    res.end();
+    ctx.body.write(html2);
+    ctx.body.end();
   });
 });
 

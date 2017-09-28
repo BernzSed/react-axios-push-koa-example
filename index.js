@@ -3,6 +3,7 @@
 require('babel-register')({});
 require("babel-polyfill");
 
+process.on('unhandledRejection', r => console.error(r)); // TODO delete line
 
 var server = require('./server');
 // const PORT = process.env.PORT || 3000;
