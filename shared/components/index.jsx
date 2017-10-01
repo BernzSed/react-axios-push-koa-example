@@ -12,7 +12,7 @@ function mapDispatchToProps(dispatch) {
   return { actions: bindActionCreators(fooActions, dispatch) };
 }
 
-class Home extends React.Component {
+class App extends React.Component {
   propTypes: {
     actions: PropTypes.obj.isRequired,
     foo: PropTypes.any
@@ -29,15 +29,23 @@ class Home extends React.Component {
   render() {
     return (
       <div>
-        <h1>I am a banana!</h1>
-        <p>Watch how I soar.</p>
+        <h1>Push it!</h1>
+        <p>
+          This page calls the api endpoint <code>/api/foo</code>.
+          The result is displayed below.
+        </p>
         {this.props.foo ?
-          <samp>{this.props.foo.toString()}</samp> :
+          <samp>{JSON.stringify(this.props.foo.toString)}</samp> :
           <progress />
         }
+        <p>
+          In Chrome's developer tools, you should be able to see this
+          under the network tab. In the "Initiator" column, it will say
+          "Push / xhr.js".
+        </p>
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
