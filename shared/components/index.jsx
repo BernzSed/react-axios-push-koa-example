@@ -35,7 +35,7 @@ class App extends React.Component {
           The result is displayed below.
         </p>
         {this.props.foo ?
-          <samp>{JSON.stringify(this.props.foo.toString)}</samp> :
+          <samp>{JSON.stringify(this.props.foo)}</samp> :
           <progress />
         }
         <p>
