@@ -71,6 +71,7 @@ routes.get(/^\/(.*)(?:\/|$)/, async function(ctx, next) {
   const stream = renderToNodeStream(InitialComponent);
   stream.pipe(ctx.body, {end: false});
   stream.on('end', () => {
+    // wait until the stream ends to get redux state
     const initialState = store.getState();
     const html2 = `</div>
     <script type="application/javascript">
@@ -79,8 +80,7 @@ routes.get(/^\/(.*)(?:\/|$)/, async function(ctx, next) {
     <script defer async type="application/javascript" src="/assets/bundle.js"></script>
   </body>
 </html>`;
-    ctx.body.write(html2);
-    ctx.body.end();
+    ctx.body.end(html2);
   });
 });
 

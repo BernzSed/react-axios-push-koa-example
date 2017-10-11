@@ -22,8 +22,6 @@ const middlewares = applyMiddleware(thunk.withExtraArgument(apiClient));
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducer, initialState, composeEnhancers(middlewares));
 
-global._the_great_and_powerful_store = store; // for debugging
-
 ReactDOM.hydrate(
   <Provider store={store}>
     <App />
