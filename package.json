@@ -1,7 +1,8 @@
 {
   "name": "axios-push-koa-redux-example",
   "version": "1.0.0",
-  "repository": "",
+  "repository": "https://github.com/BernzSed/axios-push-koa-redux-example.git",
+  "private": true,
   "description": "An example of how to use axios-push with koa, react, and redux",
   "main": "src/index.js",
   "scripts": {
