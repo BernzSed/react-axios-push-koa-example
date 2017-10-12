@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import * as fooActions from 'actions/foo';
+import * as fooActions from '../actions/foo';
 
 function mapStateToProps(state) {
   return { foo: state.foo };

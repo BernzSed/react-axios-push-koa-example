@@ -3,7 +3,7 @@ var webpack = require('webpack');
 
 module.exports = {
   entry:  [
-    './client'
+    './src/client'
   ],
   output: {
     path: path.join(__dirname, 'assets'),
@@ -11,7 +11,7 @@ module.exports = {
     filename: 'bundle.js'
   },
   resolve: {
-    modules: ['node_modules', 'shared'],
+    modules: ['node_modules'],
     extensions: ['.js', '.jsx']
   },
   module: {

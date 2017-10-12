@@ -1,14 +1,13 @@
 import React from 'react';
 import ReactDOM  from 'react-dom';
-import App from 'components';
-import { createStore, combineReducers } from 'redux';
+import { applyMiddleware, compose, combineReducers, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { fromJS } from 'immutable';
-import * as reducers from 'reducers';
-import { applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import axios from 'axios';
-import axiosConfig from 'config/axios';
+import * as reducers from './reducers';
+import App from './components';
+import axiosConfig from './config/axios';
 
 const initialStateMutable = window._initial_redux_state;
 const initialState = {};

@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "repository": "",
   "description": "An example of how to use axios-push with koa, react, and redux",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "start": "npm run build:dev; npm run serve",
     "clean": "rm -rf assets/bundle.js",
-    "serve": "NODE_PATH=$NODE_PATH:./shared nodemon --expose-http2 .",
-    "debug": "NODE_PATH=$NODE_PATH:./shared node inspect --expose-http2 .",
+    "serve": "nodemon --expose-http2 .",
+    "debug": "node inspect --expose-http2 .",
     "build:dev": "NODE_ENV=development webpack --progress --color -p --config webpack.config.js",
     "build:prod": "NODE_ENV=production webpack --progress --color -p --config webpack.config.js"
   },

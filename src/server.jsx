@@ -13,10 +13,10 @@ import serve from 'koa-static';
 import thunk from 'redux-thunk';
 import createAxios from 'axios-push';
 
-import AppComponent from 'components';
-import * as reducers from 'reducers';
+import AppComponent from './components';
+import * as reducers from './reducers';
 import api from './api';
-import axiosConfig from 'config/axios';
+import axiosConfig from './config/axios';
 
 const options = {
   key: fs.readFileSync('./server.key'),
