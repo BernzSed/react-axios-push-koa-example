@@ -11,7 +11,7 @@ import Router from 'koa-router';
 import mount from 'koa-mount';
 import serve from 'koa-static';
 import thunk from 'redux-thunk';
-import createAxios from 'axios-isomorphic-push';
+import createAxios from 'axios-push';
 
 import AppComponent from 'components';
 import * as reducers from 'reducers';

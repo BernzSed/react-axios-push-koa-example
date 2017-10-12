@@ -2,7 +2,7 @@
   "name": "koa-axios-ssr-push-example",
   "version": "1.0.0",
   "repository": "",
-  "description": "An example of how to use axios-isomorphic-push with koa, react, and redux",
+  "description": "An example of how to use axios-push with koa, react, and redux",
   "main": "index.js",
   "scripts": {
     "start": "npm run build:dev; npm run serve",
@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.16.2",
-    "axios-isomorphic-push": "file:../axios-isomorphic-push",
+    "axios-push": "file:../axios-push",
     "delay": "^2.0.0",
     "immutable": "^3.8.1",
     "koa": "^2.3.0",
