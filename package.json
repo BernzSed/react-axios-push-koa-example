@@ -1,5 +1,5 @@
 {
-  "name": "koa-axios-ssr-push-example",
+  "name": "axios-push-koa-redux-example",
   "version": "1.0.0",
   "repository": "",
   "description": "An example of how to use axios-push with koa, react, and redux",

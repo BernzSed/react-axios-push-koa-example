@@ -27,14 +27,6 @@ const app = new Koa();
 
 const server = http2.createSecureServer(options, app.callback());
 
-server.listen(3000, (err) => {
-  if (err) {
-    throw new Error(err);
-  }
-
-  console.log('Listening on port: ' + 3000 + '.');
-});
-
 const routes = new Router();
 app.use(routes.routes());
 

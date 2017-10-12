@@ -3,17 +3,15 @@
 require('babel-register')({});
 require("babel-polyfill");
 
-process.on('unhandledRejection', r => console.error(r)); // TODO delete line
+var server = require('./server').default;
+const PORT = process.env.PORT || 3000;
 
-var server = require('./server');
-// const PORT = process.env.PORT || 3000;
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; // only for development on localhost
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; // TODO only for development on localhost
+server.listen(PORT, function (err) {
+  if (err) {
+    throw new Error(err);
+  }
 
-// server.listen(PORT, function (err) {
-//   if (err) {
-//     throw new Error(err);
-//   }
-//
-//   console.log('Server listening on', PORT);
-// });
+  console.log('Server listening on port', PORT);
+});
