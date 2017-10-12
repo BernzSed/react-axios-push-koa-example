@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.16.2",
-    "axios-push": "file:../axios-push",
+    "axios-push": "0.0.1",
     "delay": "^2.0.0",
     "immutable": "^3.8.1",
     "koa": "^2.3.0",
