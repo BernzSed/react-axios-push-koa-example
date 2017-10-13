@@ -43,6 +43,11 @@ class App extends React.Component {
           under the network tab. In the "Initiator" column, it will say
           "Push / xhr.js".
         </p>
+        <p>
+          For a more detailed look at what's going on, check out
+          Chrome's net internals,
+          at: <samp>chrome://net-internals/#http2</samp>
+        </p>
       </div>
     );
   }
