@@ -31,12 +31,10 @@ const routes = new Router();
 app.use(routes.routes());
 
 routes.use(api.routes());
-routes.use(mount('/assets', serve('assets')))
+routes.use('/assets', mount('/assets', serve('assets')))
 
 routes.get(/^\/(.*)(?:\/|$)/, async function(ctx, next) {
-  const { req, res } = ctx;
-
-  const apiClient = createAxios(res, axiosConfig);
+  const apiClient = createAxios(ctx.res, axiosConfig);
   const reducer = combineReducers(reducers);
   const middlewares = applyMiddleware(thunk.withExtraArgument(apiClient));
   const store = createStore(reducer, middlewares);
