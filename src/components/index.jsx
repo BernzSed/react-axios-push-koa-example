@@ -13,7 +13,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 class App extends React.Component {
-  propTypes: {
+  static propTypes: {
     actions: PropTypes.obj.isRequired,
     foo: PropTypes.any
   }
