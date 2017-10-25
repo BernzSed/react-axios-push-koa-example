@@ -70,7 +70,9 @@ routes.get('/', async function(ctx) {
     <script defer async type="application/javascript" src="/assets/bundle.js"></script>
   </body>
 </html>`;
-    ctx.body.end(html2);
+    // waitForChained() is needed if you're chaining api calls
+    ctx.body.write(html2);
+    apiClient.waitForChained().then(() => ctx.body.end());
   });
 });
 
