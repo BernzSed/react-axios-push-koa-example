@@ -22,7 +22,6 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    console.log('App.componentWillMount');
     // Call the action in componentWillMount, not componentDidMount, so it
     // is called during both server-side and client-side rendering.
     // The actual API call will only be made once, because the browser will wait
@@ -31,7 +30,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log('App.render()');
     return (
       <div>
         <h1>Push it!</h1>

@@ -1,7 +1,7 @@
 export const getFooBar = () => async (dispatch, getState, apiClient) => {
   try {
     const foo = await apiClient.get('/foo', {
-      chainedRequest: true
+      chained: true
     });
     console.log('got foo!', foo.data);
 
