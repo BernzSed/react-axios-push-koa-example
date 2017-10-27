@@ -1,9 +1,9 @@
 {
-  "name": "axios-push-koa-redux-example",
+  "name": "react-axios-push-koa-example",
   "version": "1.0.0",
-  "repository": "https://github.com/BernzSed/axios-push-koa-redux-example.git",
+  "repository": "https://github.com/BernzSed/react-axios-push-koa-example.git",
   "private": true,
-  "description": "An example of how to use axios-push with koa, react, and redux",
+  "description": "An example of how to use react-axios-push with koa",
   "main": "src/index.js",
   "scripts": {
     "start": "npm run build:dev; npm run serve",
@@ -22,7 +22,6 @@
     "axios": "^0.16.2",
     "axios-push": "^0.0.1",
     "delay": "^2.0.0",
-    "immutable": "^3.8.2",
     "koa": "^2.3.0",
     "koa-mount": "^3.0.0",
     "koa-router": "^7.2.1",

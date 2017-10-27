@@ -1,32 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-
-import * as actions from '../actions/foobar';
-
-function mapStateToProps(state) {
-  return {
-    foo: state.foo,
-    bar: state.bar
-  };
-}
-function mapDispatchToProps(dispatch) {
-  return { actions: bindActionCreators(actions, dispatch) };
-}
+import { withAxios } from 'react-axios-push';
 
 class App extends React.Component {
   static propTypes: {
-    actions: PropTypes.obj.isRequired,
-    foo: PropTypes.any
   }
 
   componentWillMount() {
-    // Call the action in componentWillMount, not componentDidMount, so it
-    // is called during both server-side and client-side rendering.
+    // Make your API calls in componentWillMount, not componentDidMount, so it
+    // runs during both server-side and client-side rendering.
     // The actual API call will only be made once, because the browser will wait
     // for the push_promise to be fulfilled, rather than making another call.
-    this.props.actions.getFooBar();
+    this.getFooBar();
+  }
+
+  async getFooBar() {
+    try {
+      const fooResponse = await this.props.axios.get('/foo', {
+        chained: true
+      });
+
+      console.log('got foo!', fooResponse.data);
+
+      this.setState({
+        foo: fooResponse.data
+      });
+
+      const barResponse = await apiClient.get('/bar');
+
+      console.log('got bar!', barResponse.data);
+
+      this.setState({
+        bar: barResponse.data
+      });
+    } catch(err) {
+      console.error('could not get foo,bar', err);
+      return;
+    }
   }
 
   render() {
@@ -64,4 +74,4 @@ class App extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default withAxios(App);
